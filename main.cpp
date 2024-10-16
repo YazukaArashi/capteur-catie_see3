@@ -37,16 +37,16 @@ int main()
         printf("Etat du bouton : %d \n", button.read());
 
         //led = button;
-        // if (button == 1)
-        // {
-        //     t.start();
-        // }
-        // else
-        // {
-        //     t.stop();
-        //     printf("The time taken was %llu milliseconds\n", duration_cast<milliseconds>(t.elapsed_time()).count());
-        //     t.reset();
-        // }
+        if (button == 1)
+        {
+            t.start();
+        }
+        else
+        {
+            t.stop();
+            printf("The time taken was %llu milliseconds\n", duration_cast<milliseconds>(t.elapsed_time()).count());
+            t.reset();
+        }
 
         ThisThread::sleep_for(BLINKING_RATE);
     }
