@@ -5,25 +5,41 @@
 
 #include "mbed.h"
 
-
 // Blinking rate in milliseconds
 #define BLINKING_RATE     500ms
+
+DigitalOut led(LED1);
+
+InterruptIn button(BUTTON1);
+
+using namespace std::chrono;
+Timer t;
+
+void flip()
+{
+    led = !led;
+}
 
 
 int main()
 {
-    // Initialise the digital pin LED1 as an output
-#ifdef LED1
-    DigitalOut led(LED1);
-#else
-    bool led;
-#endif
+button.rise(&flip);
 
-    printf("Test 1, 2. Test\n");
+    while (true) 
+    {
+        printf("Test 1, 2. Test\n");
+        printf("Etat du bouton : %d \n", button.read());
 
-    while (true) {
-        led = !led;
+        // led = button;
+        
+        t.start();
+        printf("Hello World!\n");
+        t.stop();
+        printf("The time taken was %llu milliseconds\n", duration_cast<milliseconds>(t.elapsed_time()).count());
+
         ThisThread::sleep_for(BLINKING_RATE);
     }
+
+
     
 }
