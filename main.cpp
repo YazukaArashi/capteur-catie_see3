@@ -4,58 +4,34 @@
  */
 
 #include "mbed.h"
-
+#include <math.h>
 // Blinking rate in milliseconds
-#define BLINKING_RATE     100ms
+#define BLINKING_RATE     500ms
 
-DigitalOut led1(LED1);
-DigitalOut led2(LED2);
+I2C i2c(P1_I2C_SDA, P1_I2C_SCL);
 
-InterruptIn button(BUTTON1);
-
-using namespace std::chrono;
-Timer t;
-Ticker flipper;
-int cpt = 0, counter = 2;
-
-void flip_on()
-{
-    led1 = 1;
-}
-
-void flip_off()
-{
-    led1 = 0;
-}
-
-void flip()
-{
-    cpt = cpt + 1;
-    if (cpt == counter)
-    {
-        led2 = !led2; //toggle la led si le compteur et la fréquence sont les mêmes.
-        cpt = 0; //remise à zéro du compteur. 
-    }
-}
-
-void change_freq()
-{
-    counter = counter + 1; //diminution de la fréquence de clignottement.  
-}
+const int addr7bit = 0x40;      // 7 bit I2C address
+const int addr8bit = 0x40 << 1; // 8bit I2C address, 0x90
 
 int main()
 {
-    button.rise(&change_freq);
-    //button.fall(&flip_off);
-    flipper.attach(&flip, 100ms);
+    char cmd[2] = {0};
+    char reg_add = 0xE5;
+    // char reg_add = 0x00;
 
-    while (true) 
+    while (1) 
     {
-        led1 = !led1;
-        printf("Temps de fréquence de la led 2 : %d x plus que la led 1.\n", counter);
 
-
+        i2c.write(addr8bit, &reg_add, 1); //Commencer par une écriture. Valeur du registre que l'on veut lire. 
+        //ThisThread::sleep_for(50ms); //Tempo pour séparer les 2 requêtes. Nécessaire pour le start and stop.
+        i2c.read(addr8bit, cmd, 2); 
+        
+        int16_t tmp = (cmd[0] << 8) | (cmd[1] & 0xFC);
+        //int tmp_final = tmp /128;
+        int humidity_final = -6 + (125 * tmp / pow(2, 16));
+        printf("Humidite = %d %\n", humidity_final);
+        //printf("cmd[0] = 0x%02X, cmd[1] = 0x%02X\n", cmd[0], cmd[1]);
+        //printf("cmd[0] = 0x%02X\n", cmd[0]);
         ThisThread::sleep_for(BLINKING_RATE);
     }
-    
 }
