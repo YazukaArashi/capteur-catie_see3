@@ -16,20 +16,26 @@ const int addr8bit = 0x40 << 1; // 8bit I2C address, 0x90
 int main()
 {
     char cmd[2] = {0};
-    char reg_add = 0xE5;
+    char reg_hum = 0xE5;
+    char reg_temp =  0xE3;
     // char reg_add = 0x00;
 
     while (1) 
     {
 
-        i2c.write(addr8bit, &reg_add, 1); //Commencer par une écriture. Valeur du registre que l'on veut lire. 
+        i2c.write(addr8bit, &reg_hum, 1); //Commencer par une écriture. Valeur du registre que l'on veut lire. 
         //ThisThread::sleep_for(50ms); //Tempo pour séparer les 2 requêtes. Nécessaire pour le start and stop.
         i2c.read(addr8bit, cmd, 2); 
-        
         int16_t tmp = (cmd[0] << 8) | (cmd[1] & 0xFC);
-        //int tmp_final = tmp /128;
         int humidity_final = -6 + (125 * tmp / pow(2, 16));
+
+        i2c.write(addr8bit, &reg_temp, 1); //Commencer par une écriture. Valeur du registre que l'on veut lire. 
+        //ThisThread::sleep_for(50ms); //Tempo pour séparer les 2 requêtes. Nécessaire pour le start and stop.
+        i2c.read(addr8bit, cmd, 2); 
+        tmp = (cmd[0] << 8) | (cmd[1] & 0xFC);
+        int temp_final = -46.85 + (175.72 * tmp / pow(2, 16));
         printf("Humidite = %d %\n", humidity_final);
+        printf("Temperature = %d degre C\n", temp_final);
         //printf("cmd[0] = 0x%02X, cmd[1] = 0x%02X\n", cmd[0], cmd[1]);
         //printf("cmd[0] = 0x%02X\n", cmd[0]);
         ThisThread::sleep_for(BLINKING_RATE);
