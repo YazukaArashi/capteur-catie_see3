@@ -18,7 +18,7 @@ protected:
 public:
     CapteurI2C(I2C &i2c, int adresse) : _i2c(i2c), _adresse(adresse << 1) {}
 
-    bool lireRegistre(char registre, char *data, int taille)
+    bool lireRegistre(char registre, char *data, int taille) // Fonction pour lire un registre d'un capteur en I2C
     {
         if (_i2c.write(_adresse, &registre, 1) != 0)
         {
@@ -42,28 +42,29 @@ public:
     int lireHumidite()
     {
         char data[2] = {0};
-        if (!lireRegistre(0xE5, data, 2))
+        if (!lireRegistre(0xE5, data, 2)) // Lecture de l'humidité via le registre
         {
             printf("Erreur lecture humidite\n");
             return -1;
         }
         int16_t valeur = (data[0] << 8) | (data[1] & 0xFC);
-        return -6 + (125 * valeur / pow(2, 16));
+        return -6 + (125 * valeur / pow(2, 16)); // Calcul de la valeur de l'humidité via la datasheet
     }
 
     int lireTemperature()
     {
         char data[2] = {0};
-        if (!lireRegistre(0xE3, data, 2))
+        if (!lireRegistre(0xE3, data, 2)) // Lecture de la température via le registre
         {
             printf("Erreur lecture temperature\n");
             return -1;
         }
         int16_t valeur = (data[0] << 8) | (data[1] & 0xFC);
-        return -46.85 + (175.72 * valeur / pow(2, 16));
+        return -46.85 + (175.72 * valeur / pow(2, 16)); // Calcul de la valeur de la température via la datasheet
     }
 };
 
+// Classe pour le capteur de pression
 class CapteurPression : public CapteurI2C
 {
 public:
@@ -132,25 +133,25 @@ int main()
 {
     I2C i2c(P1_I2C_SDA, P1_I2C_SCL);
 
-    CapteurHumiditeTemperature capteurHT(i2c, 0x40); // 8bit I2C address, 0x90
-    CapteurPression capteurPression(i2c, 0x70);
+    CapteurHumiditeTemperature capteurHT(i2c, 0x40); // Adresse capteur d'humidité
+    CapteurPression capteurPression(i2c, 0x70); // Adresse capteur de pression
 
 
     while (true)
     {
-        //int humidite = capteurHT.lireHumidite();
-        //int temperature = capteurHT.lireTemperature();
-        int pression = capteurPression.lirePression();
+        int humidite = capteurHT.lireHumidite();
+        int temperature = capteurHT.lireTemperature();
+        //int pression = capteurPression.lirePression();
 
-        /*if (humidite != -1 && temperature != -1)
+        if (humidite != -1 && temperature != -1)
         {
             printf("Humidité : %d %\n", humidite);
             printf("Température : %d degre C\n", temperature);
-        }*/
-        if (pression != -1)
+        }
+        /*if (pression != -1)
         {
             printf("Pression : %d kPa\n", pression);
-        }
+        }*/
 
         
 
