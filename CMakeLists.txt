@@ -18,6 +18,8 @@ add_executable(${APP_TARGET})
 target_sources(${APP_TARGET}
     PRIVATE
         main.cpp
+        CapteurI2C.cpp
+        CapteurHumiditeTemperature.cpp
 )
 
 target_link_libraries(${APP_TARGET}
