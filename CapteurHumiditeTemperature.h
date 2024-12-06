@@ -11,8 +11,8 @@ class CapteurHumiditeTemperature : public CapteurI2C {
     public: 
     CapteurHumiditeTemperature(I2C &i2C, int adresse); // Constructeur
     // Methode pour lire les valeurs (humidite et temperature)
-    int lireHumidite();
-    int lireTemperature();
+    float lireHumidite();
+    float lireTemperature();
 };
 
 #endif // CAPTEURHUMIDITETEMPERATURE_H

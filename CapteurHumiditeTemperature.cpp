@@ -6,7 +6,8 @@
 CapteurHumiditeTemperature::CapteurHumiditeTemperature(I2C &i2c, int adresse) : CapteurI2C(i2c, adresse) {}
 
 // Methode pour lire donnees (humidite et temperature)
-int CapteurHumiditeTemperature::lireHumidite() {
+float CapteurHumiditeTemperature::lireHumidite() 
+{
     char data[2] = {0};
     if (!lireRegistre(0xE5, data, 2)) // Lecture de l'humidité via le registre
     {
@@ -17,7 +18,8 @@ int CapteurHumiditeTemperature::lireHumidite() {
     return -6 + (125 * valeur / pow(2, 16)); // Calcul de la valeur de l'humidité via la datasheet
 }
 
-int CapteurHumiditeTemperature::lireTemperature() {
+float CapteurHumiditeTemperature::lireTemperature() 
+{
     char data[2] = {0};
     if (!lireRegistre(0xE3, data, 2)) // Lecture de la température via le registre
     {
