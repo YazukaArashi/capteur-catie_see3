@@ -68,15 +68,14 @@ static LoRaWANInterface lorawan(radio);
  */
 static lorawan_app_callbacks_t callbacks;
 
-static void get_payload() 
+static void get_payload() //Fonction pour récupérer les valeurs des capteurs
 {
-    // TODO: Read sensor data
-    float temperature = capteurHT.lireTemperature();
-    float humidite = capteurHT.lireHumidite();
+    float temperature = capteurHT.lireTemperature(); //Récupération température
+    float humidite = capteurHT.lireHumidite(); //Récupération humidité
     printf("temp : %f\n", temperature);
     printf("hum : %f\n", humidite);
-    snprintf((char *)tx_buffer, sizeof(tx_buffer), "{\"temp\": %.02f, \"humidite\": %.02f}", temperature, humidite);
-    printf("payload : %s\n", tx_buffer);
+    snprintf((char *)tx_buffer, sizeof(tx_buffer), "{\"temp\": %.02f, \"humidite\": %.02f}", temperature, humidite); //Modification des valeurs dans tx_buffer
+    printf("Payload : %s\n", tx_buffer); //vérification de tx_buffer
 }
 
 int main()
@@ -142,11 +141,9 @@ static void send_message()
 {
     uint16_t packet_len;
     int16_t retcode;
-    //int32_t sensor_value;
-    // TODO : verif get_payload
-    get_payload();
+
+    get_payload(); //Récupération des valeurs en temps réel
     
-    //memcpy(tx_buffer, payload, strlen(payload));
     packet_len = strlen((char *)tx_buffer);
 
     retcode = lorawan.send(MBED_CONF_LORA_APP_PORT, tx_buffer, packet_len, MSG_UNCONFIRMED_FLAG);
