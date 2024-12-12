@@ -22,15 +22,7 @@ Le **Zest_Sensor_P-T-RH** est une carte de développement électronique pour la 
 
 ---
 
-<!-- comment faire pour exécuter code
-Utilisation
-Exercice
-ThingsBoard ce qu'on affiche
-pb qu'on a eu, comment on a pu les résoudre -->
-
 ## Pour commencer
-
-<!-- Entrez ici les instructions pour bien débuter avec votre projet... -->
 
 ### Pré-requis
 
@@ -74,7 +66,6 @@ Pour vérifier que la passerelle LoRa est connectée à la carte :
 ## Résultats
 Les données mesurées (température & pression) sont correctement affichées sur ThingsBoard. 
 
-<!-- (ajouter capture d'écran) -->
 ![Capture Ecran ThingsBoard](THINGSBOARD7.png)
 
 Ci-dessus, un exemple de résultats observés après avoir soufflé, voire potentiellement postilloné, sur le capteur pour faire varier les valeurs. 
