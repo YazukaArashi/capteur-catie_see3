@@ -78,8 +78,8 @@ TP.c : Contient l'ensemble des travaux pratiques réalisés durant le cours.
 2. **Problème avec la payload** : Nous avons rencontré un problème pour actualiser la payload. Afin de contourner cette difficulté, nous avons décidé de modifier directement le tableau de sortie (Tx_Buffer). Ce n'était pas la solution idéale, mais elle nous a permis de continuer à avancer.
 3. **Capteur de température défectueux** : Nous avons perdu un temps considérable à cause d’un capteur de température défectueux (température). Après plusieurs tentatives infructueuses, nous avons essayé le capteur de pression, mais les valeurs obtenues n’étaient pas fiables. Finalement, nous avons opté pour le capteur d’humidité, qui, en plus de mesurer l’humidité, fournit également une mesure de température correcte.
 ## Auteurs
-* **Angel Bossi** _alias_ [@YazukaArashi](https://github.com/nbossi)
-* **Eve Colnay--Delphin** _alias_ [@outout14](https://github.com/YazukaArashi)
-* **Océane Lafitte** _alias_ [@outout14](https://github.com/oceanel33)
+* **Angel Bossi** _alias_ [@nbossi](https://github.com/nbossi)
+* **Eve Colnay--Delphin** _alias_ [@YazukaArashi](https://github.com/YazukaArashi)
+* **Océane Lafitte** _alias_ [@oceanel33](https://github.com/oceanel33)
 
 
