@@ -75,9 +75,8 @@ TP.c : Contient l'ensemble des travaux pratiques réalisés durant le cours.
 
 ## Notes importantes et défis rencontrés
 1. **Prise en main du code LoRa** : Nous avons pris du temps pour comprendre comment utiliser le code associé à LoRa car le code ne provenait pas de nous.
-2. **Problème avec la payload** : Nous avons rencontré des difficultés à actualiser la payload. Pour contourner cela, nous avons fait le choix de directement modifié le tableau de sortie (Tx_Buffer).
-3. **Capteur de température défectueux** : Nous avons perdu beaucoup de temps les premières séances car le capteur de température principal ne fonctionnait pas. Nous sommes donc passées sur le capteur de pression (plus complexe) mais nous n'avons pas réussi à récupérer des valeurs potables. Finalement, nous utilisons seulement le capteur d’humidité, qui fournit également des mesures de température.
-
+2. **Problème avec la payload** : Nous avons rencontré un problème pour actualiser la payload. Afin de contourner cette difficulté, nous avons décidé de modifier directement le tableau de sortie (Tx_Buffer). Ce n'était pas la solution idéale, mais elle nous a permis de continuer à avancer.
+3. **Capteur de température défectueux** : Nous avons perdu un temps considérable à cause d’un capteur de température défectueux (température). Après plusieurs tentatives infructueuses, nous avons essayé le capteur de pression, mais les valeurs obtenues n’étaient pas fiables. Finalement, nous avons opté pour le capteur d’humidité, qui, en plus de mesurer l’humidité, fournit également une mesure de température correcte.
 ## Auteurs
 * **Angel Bossi** _alias_ [@YazukaArashi](https://github.com/nbossi)
 * **Eve Colnay--Delphin** _alias_ [@outout14](https://github.com/YazukaArashi)
