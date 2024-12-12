@@ -1,73 +1,95 @@
-![](./resources/official_armmbed_example_badge.png)
-# Blinky Mbed OS example
+# Projet SEE – Capteurs pour l’embarqué : Station météo sans fil
+<!-- ajouter lien pour dire à partir de où lire -->
 
-The example project is part of the [Arm Mbed OS Official Examples](https://os.mbed.com/code/) and is the [getting started example for Mbed OS](https://os.mbed.com/docs/mbed-os/latest/quick-start/index.html). It contains an application that repeatedly blinks an LED on supported [Mbed boards](https://os.mbed.com/platforms/).
+Ce projet a pour objectif de concevoir une station météo sans fil capable de mesurer et de transmettre des données environnementales en temps réel à un ordinateur. Le système est développé dans le cadre du cours **Systèmes Embarqués et Capteurs (SEE)** et repose sur l’utilisation du capteur **Zest_Sensor_P-T-RH**.
 
-You can build the project with all supported [Mbed OS build tools](https://os.mbed.com/docs/mbed-os/latest/tools/index.html). However, this example project specifically refers to the command-line interface tools, [Arm Mbed CLI 1](https://github.com/ARMmbed/mbed-cli#installing-mbed-cli) and [Mbed CLI 2](https://github.com/ARMmbed/mbed-tools#installation).
+---
 
-(Note: To see a rendered example you can import into the Arm Online Compiler, please see our [import quick start](https://os.mbed.com/docs/mbed-os/latest/quick-start/online-with-the-online-compiler.html#importing-the-code).)
+### Description du Zest_Sensor_P-T-RH
 
-## Mbed OS build tools
+Le **Zest_Sensor_P-T-RH** est une carte de développement électronique pour la plateforme open-source **6TRON**, intégrant trois capteurs environnementaux :
+- **Capteur d’humidité HTU21DF** (TE Connectivity) : conçu pour mesurer l'humidité relative de l'air (0 ~ 100 %HR) et la température ambiante.
+- **Capteur de température AS6212-AWLT-S** (AMS) : offre une résolution de 16 bits sur une plage de -40°C à +125°C, avec une fonctionnalité d'alarme pour réveiller le microcontrôleur à des seuils de température définis.
+- **Capteur de pression 2SMPB-02E** (Omron Electronics) : mesure la pression atmosphérique entre 30 kPa et 110 kPa et intègre un circuit de compensation thermique pour garantir des mesures précises.
 
-### Mbed CLI 2
-Starting with version 6.5, Mbed OS uses Mbed CLI 2. It uses Ninja as a build system, and CMake to generate the build environment and manage the build process in a compiler-independent manner. If you are working with Mbed OS version prior to 6.5 then check the section [Mbed CLI 1](#mbed-cli-1).
-1. [Install Mbed CLI 2](https://os.mbed.com/docs/mbed-os/latest/build-tools/install-or-upgrade.html).
-1. From the command-line, import the example: `mbed-tools import mbed-os-example-blinky`
-1. Change the current directory to where the project was imported.
+---
 
-### Mbed CLI 1
-1. [Install Mbed CLI 1](https://os.mbed.com/docs/mbed-os/latest/quick-start/offline-with-mbed-cli.html).
-1. From the command-line, import the example: `mbed import mbed-os-example-blinky`
-1. Change the current directory to where the project was imported.
+### Objectifs du projet
 
-## Application functionality
+- **Utiliser le Zest_Sensor_P-T-RH** pour mesurer trois paramètres environnementaux : humidité, température et pression.
+- **Transmettre les données** collectées par le capteur à un module récepteur local via une communication sans fil.
+- **Afficher les données** sur THingsBoard.
 
-The `main()` function is the single thread in the application. It toggles the state of a digital output connected to an LED on the board.
+---
 
-**Note**: This example requires a target with RTOS support, i.e. one with `rtos` declared in `supported_application_profiles` in `targets/targets.json` in [mbed-os](https://github.com/ARMmbed/mbed-os). For non-RTOS targets (usually with small memory sizes), please use [mbed-os-example-blinky-baremetal](https://github.com/ARMmbed/mbed-os-example-blinky-baremetal) instead.
+<!-- comment faire pour exécuter code
+Utilisation
+Exercice
+ThingsBoard ce qu'on affiche
+pb qu'on a eu, comment on a pu les résoudre -->
 
-## Building and running
+## Pour commencer
 
-1. Connect a USB cable between the USB port on the board and the host computer.
-1. Run the following command to build the example project and program the microcontroller flash memory:
+<!-- Entrez ici les instructions pour bien débuter avec votre projet... -->
 
-    * Mbed CLI 2
+### Pré-requis
 
-    ```bash
-    $ mbed-tools compile -m <TARGET> -t <TOOLCHAIN> --flash
-    ```
+- Un ordinateur avec Python installé pour configurer la plateforme.  
+- Une installation configurée de [mbed-cli](https://os.mbed.com/docs/mbed-os/v6.15/tools/setup.html).  
+- Un compte sur [ThingsBoard Cloud](https://thingsboard.cloud).
 
-    * Mbed CLI 1
+### Installation
 
-    ```bash
-    $ mbed compile -m <TARGET> -t <TOOLCHAIN> --flash
-    ```
+1. **Cloner le projet dans le dossier de votre choix** :  
+   ```bash
+   git clone https://github.com/YazukaArashi/capteur-catie_see3.git
+2. **Activer l'environnement Mbed** :
+   ```bash
+    source <nom_de_votre_environnement>/bin/activate
+3. **Accéder au dossier du projet** :
+   ```bash
+    cd /chemin/vers/le/projet
+4. **Compilez le programme et flashez-le sur votre carte** :
+   ```bash
+    mbed compile
+    sixtron_flash
 
-Your PC may take a few minutes to compile your code.
+Le PC peut prendre un peu de temps pour compiler.
 
-The binary is located at:
-* **Mbed CLI 2** - `./cmake_build/<TARGET>/develop/<TOOLCHAIN>/mbed-os-example-blinky.bin`
-* **Mbed CLI 1** - `./BUILD/<TARGET>/<TOOLCHAIN>/mbed-os-example-blinky.bin`
+5. **Ouvrez un 2ème terminal pour lire les données transmises** :
+   ```bash
+    minicom -D /dev/ttyUSB0 -b 115200
 
-Alternatively, you can manually copy the binary to the board, which you mount on the host computer over USB.
+### Affichage sur ThingsBoard
+1. Rendez-vous sur le site ThingsBoard Cloud (https://thingsboard.cloud/login)
+2. Connectez-vous à vos identifiants
+3. Accédez au tableau de bord du groupe 9.
+4. Les données de température et d'humidité s'afficheront dans le tableau de bord. 
 
-## Expected output
-The LED on your target turns on and off every 500 milliseconds.
+### Utilisation de LoRa
+Pour vérifier que la passerelle LoRa est connectée à la carte :
+1. Accédez à l'onglet **Identité**.
+2. Cliquez sur **Dispositif** et vérifiez que le statut est marqué comme "**actif**". 
+
+## Résultats
+Les données mesurées (température & pression) sont correctement affichées sur ThingsBoard. 
+
+<!-- (ajouter capture d'écran) -->
+![Capture Ecran ThingsBoard](THINGSBOARD7.png)
+
+Ci-dessus, un exemple de résultats observés après avoir soufflé, voire potentiellement postilloné, sur le capteur pour faire varier les valeurs. 
+
+### TPs du projet
+TP.c : Contient l'ensemble des travaux pratiques réalisés durant le cours. 
+
+## Notes importantes et défis rencontrés
+1. **Prise en main du code LoRa** : Nous avons pris du temps pour comprendre comment utiliser le code associé à LoRa car le code ne provenait pas de nous.
+2. **Problème avec la payload** : Nous avons rencontré des difficultés à actualiser la payload. Pour contourner cela, nous avons fait le choix de directement modifié le tableau de sortie (Tx_Buffer).
+3. **Capteur de température défectueux** : Nous avons perdu beaucoup de temps les premières séances car le capteur de température principal ne fonctionnait pas. Nous sommes donc passées sur le capteur de pression (plus complexe) mais nous n'avons pas réussi à récupérer des valeurs potables. Finalement, nous utilisons seulement le capteur d’humidité, qui fournit également des mesures de température.
+
+## Auteurs
+* **Angel Bossi** _alias_ [@YazukaArashi](https://github.com/nbossi)
+* **Eve Colnay--Delphin** _alias_ [@outout14](https://github.com/YazukaArashi)
+* **Océane Lafitte** _alias_ [@outout14](https://github.com/oceanel33)
 
 
-## Troubleshooting
-If you have problems, you can review the [documentation](https://os.mbed.com/docs/latest/tutorials/debugging.html) for suggestions on what could be wrong and how to fix it.
-
-## Related Links
-
-* [Mbed OS Stats API](https://os.mbed.com/docs/latest/apis/mbed-statistics.html).
-* [Mbed OS Configuration](https://os.mbed.com/docs/latest/reference/configuration.html).
-* [Mbed OS Serial Communication](https://os.mbed.com/docs/latest/tutorials/serial-communication.html).
-* [Mbed OS bare metal](https://os.mbed.com/docs/mbed-os/latest/reference/mbed-os-bare-metal.html).
-* [Mbed boards](https://os.mbed.com/platforms/).
-
-### License and contributions
-
-The software is provided under Apache-2.0 license. Contributions to this project are accepted under the same license. Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for more info.
-
-This project contains code from other projects. The original license text is included in those source files. They must comply with our license guide.
